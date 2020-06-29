@@ -1,0 +1,3 @@
+# SQLALCHEMY
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:myroot@db:3306/api'
+SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -1,16 +1,20 @@
 from flask import Flask
-from flask_restful import Resource, Api
+from flask_restful import Api
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-api = Api(app)
-
-
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
+db = SQLAlchemy()
 
 
-api.add_resource(HelloWorld, '/')
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object('config')
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    db.init_app(app)
+
+    from resources.task_resource import TaskResource, TaskListResource
+
+    api = Api(app)
+    api.add_resource(TaskResource, '/tasks/<int:id>')
+    api.add_resource(TaskListResource, '/tasks')
+
+    return app
